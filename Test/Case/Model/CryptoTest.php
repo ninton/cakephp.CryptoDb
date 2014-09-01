@@ -116,10 +116,10 @@ class CryptoTest extends CakeTestCase {
 		$result = $this->process_find_not_decrypt_1( $id );
 		$this->assertEqual( $result['Crypto']['message'], $this->plaintext );
 		// [MEMO]
-		// Since salt is generated each time,
+		// Since iv is generated each time,
 		// even if it use the same key and the same message,
 		// an encrypted data is different.
-		// (encrypted data contains salt)  
+		// (encrypted data contains iv)  
 		$this->assertNotEqual( $result['Crypto']['message'], $this->encrypted );
 		$this->assertPattern( '/^a:4:{s:4:"algo"/', $result['Crypto']['data_E'] );
 	}

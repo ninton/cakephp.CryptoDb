@@ -11,10 +11,10 @@ Features
 ----------------------------------------
 1) Plaintext and key are not recorded on binlog. 
 
-2) Salt is generated each time.
+2) iv is generated each time.
    Even if it use the same key and the same message,
    an encrypted data is different.
-   (encrypted data contains salt)  
+   (encrypted data contains iv)  
 
 ----------------------------------------
 MySQL field type	CryptoDb support

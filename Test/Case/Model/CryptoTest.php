@@ -102,8 +102,6 @@ class CryptoTest extends CakeTestCase {
 		//	find decrypt		'This is...'	'This is...'
 		//	find not decrypt	'This is...'	'a:4:{s:4:"algo...'
 		//	------------------------------------------------------------
-		$mesg = 'This is CryptoDb.Crypto test.';
-		
 		$data = array();
 		$data['Crypto']['message'] = $this->plaintext;
 		$data['Crypto']['data_E' ] = $this->plaintext;

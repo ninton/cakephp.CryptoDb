@@ -20,7 +20,7 @@ Features
 MySQL field type	CryptoDb support
 ----------------------------------------
 text				recommended
-varchar(255)		plaintext length <= 64
+varchar(255)		plaintext length <= 32
 
 ----------------------------------------
 Setup steps

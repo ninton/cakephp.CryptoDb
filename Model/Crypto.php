@@ -56,6 +56,7 @@
 
 App::uses('CryptoDbAppModel', 'CryptoDb.Model');
 App::uses('Security', 'Utility');
+App::uses('Mcrypt', 'CryptoDb.Lib');
 
 class Crypto extends CryptoDbAppModel {
 	public $cryptoFields = array();
@@ -186,7 +187,7 @@ class Crypto extends CryptoDbAppModel {
 			return ;
 		}
 		
-		$this->cryptoFunc = 'Security::rijndael';
+		$this->cryptoFunc = 'Mcrypt::rijndael';
 	}	
 }
 ?>

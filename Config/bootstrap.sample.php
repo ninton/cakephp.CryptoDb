@@ -22,4 +22,14 @@ Configure::write( 'CryptoDb.model.Secret.cryptoKey', 'AQMqhnhC6MynUbJP7rnqxMsqr9
  */
 Configure::write( 'CryptoDb.cryptoKey', getenv('CryptoDb.cryptoKey') );
 
+/**
+ * example 4:
+ *	Select Crypto Function	
+ */
+// CakePHP Security class 
+Configure::write( 'CryptoDb.cryptoFunc', 'Security::rijndael' );
+
+// CryptDb Mcrypt class (PHP Mcrypt function wrapper)
+Configure::write( 'CryptoDb.cryptoFunc', 'Mcrypt::rijndael' );
+
 ?>

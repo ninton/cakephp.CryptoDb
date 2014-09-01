@@ -29,13 +29,21 @@ Example you would encrypt YourModel.message.
 
 1) edit App/Config/bootstrap.php
 
+CakePlugin::loadAll(array(
+	'CryptoDb' => array('bootstrap' => true),
+));
+
+2) create plugins/CryptoDb/Config/bootstrap.php
+
 Configure::write( 'CryptoDb.cryptoKey', 'Your Cryptography Key' );
+
+See also plugins/CryptoDb/Config/bootstrap.sample.php
 
 *Caution*
 Don't change key, if service is started.
 The field encrypted with the old key cannot be decode with a new key. 
 
-2) edit App/Model/YourModel.php
+3) edit App/Model/YourModel.php
 
 App::uses('Crypto', 'CryptDb.Crypto');
 class YourModel extends Crypto {
@@ -43,7 +51,7 @@ class YourModel extends Crypto {
 		'message'
 	);
  
-3) call save() and find()
+4) call save() and find()
 
 $data['YourModel']['message'] = 'This is my secrets';
 $YourModel->save( $data );

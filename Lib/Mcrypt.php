@@ -51,30 +51,41 @@ class Mcrypt {
 	}
 	
 	static public function decrypt( $i_buf, $i_key ) {
-		$plaintext = '';
+		$plaintext = $i_buf;
 		
 		if ( '' == $i_buf ) {
 			; // noop
 		} else {
 			try {
-				$encrypted = unserialize($i_buf);
+				$encrypted = self::unserialize($i_buf);
 				
 				$algo = $encrypted['algo'];
 				$mode = $encrypted['mode'];
-				$iv   = base64_decode($encrypted['iv'  ]);
+				$iv   = base64_decode($encrypted['iv']);
 				$ciphertext = base64_decode($encrypted['ciphertext']);
 				
 				$key_size = mcrypt_get_key_size($algo, $mode);
 				$key = substr($i_key, 0, $key_size);
 				
 				$data = mcrypt_decrypt($algo, $key, $ciphertext, $mode, $iv);
-				$plaintext = unserialize($data);
+				$plaintext = self::unserialize($data);
 			} catch (Exception $e) {
 				; //noop
 			}
 		}
 		
 		return $plaintext;
+	}
+	
+	static public function unserialize( $i_str ) {
+		// [MEMO] unserialize() does not throw Exception.
+		
+		$result = @unserialize($i_str);
+		if ( $result === false ) {
+			throw new ErrorException('unserialize error');
+		}
+		
+		return $result;
 	}
 }
 

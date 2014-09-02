@@ -2,10 +2,10 @@
 App::uses('Crypto', 'CryptoDb.Model');
 
 /**
- * Crypto Test Case
+ * Sample Test Case
  *
  */
-class CryptoTest extends CakeTestCase {
+class SampleTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,7 +13,7 @@ class CryptoTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.crypto_db.crypto',
+		'plugin.crypto_db.sample',
 	);
 
 /**
@@ -23,9 +23,8 @@ class CryptoTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Crypto = ClassRegistry::init( 'CryptoDb.Crypto' );			
-		$this->assertEqual( get_class($this->Crypto), 'Crypto' );		
-		$this->Crypto->cryptoFields = array('data_E');
+		$this->Sample = ClassRegistry::init( 'CryptoDb.Sample' );			
+		$this->assertEqual( get_class($this->Sample), 'Sample' );		
 		
 		Configure::write( 'CryptoDb.cryptoKey', 'CEpSvLtiQ6fbBMfttbhdH3RUXzVwJhWMxAvBhLmsS7WK0K2cI404fw7cJdJflUg3' );
 		$this->plaintext = 'This is CryptoDb.Crypto test.';
@@ -38,7 +37,7 @@ class CryptoTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Crypto);
+		unset($this->Sample);
 
 		parent::tearDown();
 	}
@@ -47,7 +46,7 @@ class CryptoTest extends CakeTestCase {
  * test functions
  */
 	public function test_find_1() {
-		$this->assertEqual( get_class($this->Crypto), 'Crypto' );
+		$this->assertEqual( get_class($this->Sample), 'Sample' );
 				
 		//	fixture
 		//		message	: 'This is CryptoDb.Crypto test.'
@@ -59,8 +58,8 @@ class CryptoTest extends CakeTestCase {
 		//
 		$data = $this->process_find_decrypt( 1 );
 		
-		$this->assertEqual( $data['Crypto']['message'], $this->plaintext );
-		$this->assertEqual( $data['Crypto']['data_E' ], $this->plaintext );
+		$this->assertEqual( $data['Sample']['message'], $this->plaintext );
+		$this->assertEqual( $data['Sample']['data_E' ], $this->plaintext );
 	}
 	
 	public function test_find_2() {
@@ -74,8 +73,8 @@ class CryptoTest extends CakeTestCase {
 		//
 		$data = $this->process_find_not_decrypt_1( 1 );
 		
-		$this->assertEqual( $data['Crypto']['message'], $this->plaintext );
-		$this->assertEqual( $data['Crypto']['data_E' ], $this->encrypted );
+		$this->assertEqual( $data['Sample']['message'], $this->plaintext );
+		$this->assertEqual( $data['Sample']['data_E' ], $this->encrypted );
 	}
 	
 	public function test_find_3() {
@@ -89,8 +88,8 @@ class CryptoTest extends CakeTestCase {
 		//
 		$data = $this->process_find_not_decrypt_2( 1 );
 		
-		$this->assertEqual( $data['Crypto']['message' ], $this->plaintext );
-		$this->assertEqual( $data['Crypto']['data_raw'], $this->encrypted );
+		$this->assertEqual( $data['Sample']['message' ], $this->plaintext );
+		$this->assertEqual( $data['Sample']['data_raw'], $this->encrypted );
 	}
 	
 	public function test_save_1() {
@@ -103,25 +102,25 @@ class CryptoTest extends CakeTestCase {
 		//	find not decrypt	'This is...'	'a:4:{s:4:"algo...'
 		//	------------------------------------------------------------
 		$data = array();
-		$data['Crypto']['message'] = $this->plaintext;
-		$data['Crypto']['data_E' ] = $this->plaintext;
+		$data['Sample']['message'] = $this->plaintext;
+		$data['Sample']['data_E' ] = $this->plaintext;
 		
 		$this->process_save_encrypted( $data );
-		$id = $this->Crypto->id; 
+		$id = $this->Sample->id; 
 		
 		$result = $this->process_find_decrypt( $id );
-		$this->assertEqual( $result['Crypto']['message'], $this->plaintext );
-		$this->assertEqual( $result['Crypto']['data_E' ], $this->plaintext );
+		$this->assertEqual( $result['Sample']['message'], $this->plaintext );
+		$this->assertEqual( $result['Sample']['data_E' ], $this->plaintext );
 
 		$result = $this->process_find_not_decrypt_1( $id );
-		$this->assertEqual( $result['Crypto']['message'], $this->plaintext );
+		$this->assertEqual( $result['Sample']['message'], $this->plaintext );
 		// [MEMO]
 		// Since iv is generated each time,
 		// even if it use the same key and the same message,
 		// an encrypted data is different.
 		// (encrypted data contains iv)  
-		$this->assertNotEqual( $result['Crypto']['message'], $this->encrypted );
-		$this->assertPattern( '/^a:4:{s:4:"algo"/', $result['Crypto']['data_E'] );
+		$this->assertNotEqual( $result['Sample']['message'], $this->encrypted );
+		$this->assertPattern( '/^a:4:{s:4:"algo"/', $result['Sample']['data_E'] );
 	}
 
 	public function test_save_2() {
@@ -130,52 +129,68 @@ class CryptoTest extends CakeTestCase {
 		//	------------------------------------------------------------
 		//	original				'This is...'	'This is...'
 		//	save not encrypt(DB)	'This is...'	'This is...'
-		//	find decrypt			'This is...'	''
+		//	find decrypt			'This is...'	'This is...'
 		//	find not decrypt		'This is...'	'This is...'
 		//	------------------------------------------------------------
 		$data = array();
-		$data['Crypto']['message'] = $this->plaintext;
-		$data['Crypto']['data_E' ] = $this->plaintext;
+		$data['Sample']['message'] = $this->plaintext;
+		$data['Sample']['data_E' ] = $this->plaintext;
 		
 		$this->process_save_not_encrypted( $data );
-		$id = $this->Crypto->id;
+		$id = $this->Sample->id;
 		
 		$result = $this->process_find_decrypt( $id );
-		$this->assertEqual( $result['Crypto']['message'], $this->plaintext );
-		$this->assertEqual( $result['Crypto']['data_E' ], '' );		
+		$this->assertEqual( $result['Sample']['message'], $this->plaintext );
+		$this->assertEqual( $result['Sample']['data_E' ], $this->plaintext );		
 
 		$result = $this->process_find_not_decrypt_1( $id );
-		$this->assertEqual( $result['Crypto']['message'], $this->plaintext );
-		$this->assertEqual( $result['Crypto']['data_E' ], $this->plaintext );	
+		$this->assertEqual( $result['Sample']['message'], $this->plaintext );
+		$this->assertEqual( $result['Sample']['data_E' ], $this->plaintext );	
 	}
 
 	public function process_find_decrypt( $i_id ) {
-		$this->Crypto->cryptoFields = array('data_E');
-		$data = $this->Crypto->findById( $i_id );
+		$data = $this->Sample->findById( $i_id );
 		return $data;
 	}
 
 	public function process_find_not_decrypt_1( $i_id ) {
-		$this->Crypto->cryptoFields = array();
-		$data = $this->Crypto->findById( $i_id );
+		$cryptoFields = $this->Sample->cryptoFields;
+		
+		$this->Sample->cryptoFields = array();
+		$data = $this->Sample->findById( $i_id );
+		
+		$this->Sample->cryptoFields = $cryptoFields;
 		return $data;		
 	}
 	
 	public function process_find_not_decrypt_2( $i_id ) {
-		$this->Crypto->cryptoFields = array('data_E');
-		$this->Crypto->virtualFields['data_raw'] = 'data_E';
-		$data = $this->Crypto->findById( $i_id );
+		$this->Sample->virtualFields['data_raw'] = 'data_E';
+		$data = $this->Sample->findById( $i_id );
 		return $data;
 	}
 	
 	public function process_save_encrypted( $i_data ) {
-		$this->Crypto->cryptoFields = array('data_E');
-		$this->Crypto->save( $i_data );
+		$this->Sample->save( $i_data );
 	}
 
 	public function process_save_not_encrypted( $i_data ) {
-		$this->Crypto->cryptoFields = array();
-		$data = $this->Crypto->save( $i_data );
+		$params['callbacks'] = false;
+		$this->Sample->saveAll( $i_data, $params );
+	}
+	
+	public function test_blank() {
+		$data = $this->Sample->findById( 2 );
+		
+		$this->assertEqual( $data['Sample']['id'     ], 2 );
+		$this->assertEqual( $data['Sample']['message'], 'blank test' );
+		$this->assertEqual( $data['Sample']['data_E' ], '' );
 	}
 
+	public function test_unserialize_error() {
+		$data = $this->Sample->findById( 3 );
+		
+		$this->assertEqual( $data['Sample']['id'     ], 3 );
+		$this->assertEqual( $data['Sample']['message'], 'unserialize error test' );
+		$this->assertEqual( $data['Sample']['data_E' ], '_x_y_z_' );
+	}
 }

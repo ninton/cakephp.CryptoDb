@@ -1,10 +1,10 @@
 <?php
 /**
- * Crypto
- *	CryptoFixture is used only for purpose to CryptoTest.php.
- *	Not necessary to create table `cryptos` on database.
+ * [MEMO]
+ *	SampleFixture is used only for purpose to SampleTest.php.
+ *	Not necessary to create table `samples` on database.
  */
-class CryptoFixture extends CakeTestFixture {
+class SampleFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -34,6 +34,18 @@ class CryptoFixture extends CakeTestFixture {
 			'id' => 1,
 			'message' => 'This is CryptoDb.Crypto test.',
 			'data_E' => 'a:4:{s:4:"algo";s:12:"rijndael-256";s:4:"mode";s:3:"cbc";s:2:"iv";s:44:"568LvA0nRZmE77XFTcUM9ScQ7Bme9YHV+1RieXNJ0Sg=";s:10:"ciphertext";s:88:"lekqSwntbShpjIH+4B3tI7m1hPJZQjd/wrO3T8slWGa/OyCtmaaTCl1KA1jLobhLCztZYYDweDUwDDvT4gGFRQ==";}',
+		),
+
+		array(
+			'id' => 2,
+			'message' => 'blank test',
+			'data_E' => '',
+		),
+
+		array(
+			'id' => 3,
+			'message' => 'unserialize error test',
+			'data_E' => '_x_y_z_',
 		),
 	);
 

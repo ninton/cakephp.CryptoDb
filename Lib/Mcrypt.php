@@ -53,21 +53,25 @@ class Mcrypt {
 	static public function decrypt( $i_buf, $i_key ) {
 		$plaintext = '';
 		
-		try {
-			$encrypted = unserialize($i_buf);
-			
-			$algo = $encrypted['algo'];
-			$mode = $encrypted['mode'];
-			$iv   = base64_decode($encrypted['iv'  ]);
-			$ciphertext = base64_decode($encrypted['ciphertext']);
-			
-			$key_size = mcrypt_get_key_size($algo, $mode);
-			$key = substr($i_key, 0, $key_size);
-			
-			$data = mcrypt_decrypt($algo, $key, $ciphertext, $mode, $iv);
-			$plaintext = unserialize($data);
-		} catch(Exception $e) {
-			;
+		if ( '' == $i_buf ) {
+			; // noop
+		} else {
+			try {
+				$encrypted = unserialize($i_buf);
+				
+				$algo = $encrypted['algo'];
+				$mode = $encrypted['mode'];
+				$iv   = base64_decode($encrypted['iv'  ]);
+				$ciphertext = base64_decode($encrypted['ciphertext']);
+				
+				$key_size = mcrypt_get_key_size($algo, $mode);
+				$key = substr($i_key, 0, $key_size);
+				
+				$data = mcrypt_decrypt($algo, $key, $ciphertext, $mode, $iv);
+				$plaintext = unserialize($data);
+			} catch (Exception $e) {
+				; //noop
+			}
 		}
 		
 		return $plaintext;

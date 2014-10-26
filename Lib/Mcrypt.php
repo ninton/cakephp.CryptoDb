@@ -20,7 +20,7 @@ class Mcrypt {
 	}
 	
 	static public function encrypt( $i_plaintext, $i_key ) {
-		$algo = MCRYPT_RIJNDAEL_256;
+		$algo = MCRYPT_RIJNDAEL_128;
 		$mode = MCRYPT_MODE_CBC;
 		
 		$key_size = mcrypt_get_key_size($algo, $mode);
